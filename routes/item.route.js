@@ -1,9 +1,11 @@
 const { body }=require("express-validator");
-const  item_contro = require("../controllers/item_contro")
-const router = express.Router();
+const express  = require("express");
+const  item_contro= require('../controllers/item_contro');
+const Router = express.Router();
 
+console.log("refewf")
 
-router.post(
+Router.post(
     "/Est",
     [
         body("Cedula_est")
@@ -43,13 +45,19 @@ router.post(
         .escape(),
 
 
-    ],item_contro.Estudiantes);
+    ],item_contro.Est);
 
 
-    router.post(
+    Router.post(
         "/mat",
         [
-            
+            body("ID_mat")
+            .exists()
+            .withMessage("EL Numero ES REQUERIDO")
+            .matches(/[0-9]+$/) 
+            .withMessage("EL VALOR solo son numeros")
+            .trim()
+            .escape(),
             body("Nombre_mat")
             .exists()
             .withMessage("EL Nombre ES REQUERIDO")
@@ -58,10 +66,11 @@ router.post(
             .trim()
             .escape()
     
-        ],item_contro.materia);
+        ],item_contro.mat
+        );
 
     
-    router.post(
+    Router.post(
             "/Trab",
             [
                 
@@ -87,10 +96,9 @@ router.post(
                 .trim()
                 .escape()
         
-        
-            ],item_contro.Trabajo);
+            ],item_contro.Tra);
 
-     router.post(
+     Router.post(
                 "/Trab_est",
                 [
                     
@@ -119,7 +127,7 @@ router.post(
             
                 ],item_contro.Trabajo_estudiantes);
 
-                router.post(
+                Router.post(
                     "/not",
                     [
                         
@@ -138,4 +146,8 @@ router.post(
                         .trim()
                         .escape()
                 
-                    ],item_contro.notas);                
+                    ],item_contro.not);              
+
+
+
+module.exports=Router;
